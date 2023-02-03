@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "language": "Language",
+  "todo": "to do list",
+  "mode": "Mode",
+  "light": "Light",
+  "dark": "Dark"
+}
