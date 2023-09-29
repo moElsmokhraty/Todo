@@ -83,9 +83,10 @@ class LanguageProvider extends ChangeNotifier {
 
   showLanguageBottomSheet(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return const LanguageBottomSheet();
-        });
+      context: context,
+      builder: (context) {
+        return const LanguageBottomSheet();
+      },
+    );
   }
 }

@@ -8,44 +8,47 @@ import 'package:todo/UI/Tabs/ListTab/done_todo_item.dart';
 import 'package:todo/UI/Tabs/ListTab/undone_todo_item.dart';
 
 class ListTab extends StatelessWidget {
-  ListTab({Key? key}) : super(key: key);
-
-  CollectionReference todosRef = FirebaseFirestore.instance.collection(Todo.collectionNAME);
-
-  late ListProvider listProvider;
+  const ListTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    listProvider = Provider.of(context);
+    TodosProvider listProvider = Provider.of(context);
     return Column(
       children: [
-        Calendar(),
-        const SizedBox(
-          height: 5,
-        ),
+        const Calendar(),
+        const SizedBox(height: 5),
         Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: todosRef.where('date', isEqualTo: '${listProvider.selectedDate.year}-${listProvider.selectedDate.month}-${listProvider.selectedDate.day}').orderBy('isDone', descending: true).snapshots(),
-              builder: (context, snapshot){
-                if (snapshot.hasData){
-                  return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return Todo.fromJson(snapshot.data!.docs[index]).isDone == true ?  DoneTodoItem(todo: Todo.fromJson(snapshot.data!.docs[index])) : UnDoneTodoItem(todo: Todo.fromJson(snapshot.data!.docs[index]));
-                      });
-                } else {
-                  return Row(
-                    children: const [
-                      Spacer(),
-                      CircularProgressIndicator(),
-                      Spacer()
-                    ],
-                  );
-                }
+          child: StreamBuilder<QuerySnapshot>(
+            stream: listProvider.todosRef
+                .where(
+                  'date',
+                  isEqualTo:
+                      '${listProvider.calendarDate.year}-${listProvider.calendarDate.month}-${listProvider.calendarDate.day}',
+                )
+                .orderBy('isDone', descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Todo.fromJson(snapshot.data!.docs[index]).isDone!
+                        ? DoneTodoItem(
+                            todo: Todo.fromJson(snapshot.data!.docs[index]),
+                          )
+                        : UnDoneTodoItem(
+                            todo: Todo.fromJson(snapshot.data!.docs[index]),
+                          );
+                  },
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
               }
-            )
-            )
-      ]
+            },
+          ),
+        )
+      ],
     );
   }
 }

@@ -16,18 +16,20 @@ class LanguageBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-              onTap: () {
-                languageProvider.changeLocale("en");
-              },
-              child: languageProvider
-                  .changeView(languageProvider.appLocale == "en")),
+            onTap: () {
+              languageProvider.changeLocale("en");
+            },
+            child:
+                languageProvider.changeView(languageProvider.appLocale == "en"),
+          ),
           const SizedBox(height: 10),
           InkWell(
-              onTap: () {
-                languageProvider.changeLocale("ar");
-              },
-              child: languageProvider
-                  .changeView(languageProvider.appLocale == "ar"))
+            onTap: () {
+              languageProvider.changeLocale("ar");
+            },
+            child:
+                languageProvider.changeView(languageProvider.appLocale == "ar"),
+          )
         ],
       ),
     );

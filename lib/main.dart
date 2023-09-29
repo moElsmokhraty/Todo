@@ -13,17 +13,29 @@ import 'package:todo/UI/Home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => LanguageProvider()),
-    ChangeNotifierProvider(create: (_) => ThemingProvider()),
-    ChangeNotifierProvider(create: (_) => ListProvider()),
-  ], child: MyApp()));
+  final prefs = await SharedPreferences.getInstance();
+  String theme = prefs.getString('theme') ?? 'light';
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider()
+            ..changeLocale(prefs.getString('language') ?? 'en'),
+        ),
+        ChangeNotifierProvider(
+            create: (_) => ThemingProvider()
+              ..changeTheme(
+                  theme == 'light' ? MyTheme.lightMode : MyTheme.darkMode)),
+        ChangeNotifierProvider(create: (_) => TodosProvider()),
+      ],
+      child: const Todo(),
+    ),
+  );
   FirebaseFirestore.instance.disableNetwork();
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
@@ -31,21 +43,16 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  late LanguageProvider languageProvider;
-
-  late ThemingProvider themingProvider;
+class Todo extends StatelessWidget {
+  const Todo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    languageProvider = Provider.of(context);
-    themingProvider = Provider.of(context);
-    initSharedPreferences();
+    LanguageProvider languageProvider = Provider.of(context);
+    ThemingProvider themingProvider = Provider.of(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Todo',
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -53,27 +60,17 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en', ''), // English, no country code
-        Locale('ar', ''), // Arabic, no country code
+        Locale('en', ''),
+        Locale('ar', ''),
       ],
       locale: Locale(languageProvider.appLocale),
       home: const HomeScreen(),
-      theme: themingProvider.appTheme,
+      theme: themingProvider.appTheme.copyWith(useMaterial3: true),
       darkTheme: MyTheme.darkMode,
       routes: {
         HomeScreen.routeName: (_) => const HomeScreen(),
         EditTask.routeName: (_) => const EditTask()
       },
     );
-  }
-
-  void initSharedPreferences() async{
-    final prefs = await SharedPreferences.getInstance();
-    languageProvider.changeLocale(prefs.getString('language') ?? 'en');
-    if(prefs.getString('theme') == 'light'){
-      themingProvider.changeTheme(MyTheme.lightMode);
-    } else if(prefs.getString('theme') == 'dark'){
-      themingProvider.changeTheme(MyTheme.darkMode);
-    }
   }
 }

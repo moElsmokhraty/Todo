@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/Providers/list_provider.dart';
 
 import '../../../Models/todo.dart';
 import '../../../Providers/Theming/theming.dart';
@@ -10,83 +10,72 @@ import '../../../Providers/language_provider.dart';
 import '../../Home/edit_task_screen.dart';
 
 class UnDoneTodoItem extends StatelessWidget {
-  UnDoneTodoItem({this.todo,Key? key}) : super(key: key);
+  const UnDoneTodoItem({required this.todo, Key? key}) : super(key: key);
 
-  Todo? todo;
+  final Todo todo;
 
   @override
   Widget build(BuildContext context) {
     ThemingProvider themingProvider = Provider.of(context);
     LanguageProvider languageProvider = Provider.of(context);
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, EditTask.routeName, arguments: todo);
-      },
-      child: Slidable(
-        key: UniqueKey(),
-        closeOnScroll: false,
-        startActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          dismissible: DismissiblePane(onDismissed: () {
-            deleteTodo(todo!);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Task Deleted Successfully',
-                    textAlign: TextAlign.center),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.75,
-                behavior: SnackBarBehavior.floating,
-                duration: const Duration(milliseconds: 500),
+    TodosProvider listProvider = Provider.of(context);
+    return Slidable(
+      key: UniqueKey(),
+      closeOnScroll: false,
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () async {
+            await listProvider.deleteTodo(todo, context);
+          },
+        ),
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
+              height: MediaQuery.of(context).size.height * 0.15,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: languageProvider.appLocale == 'en'
+                    ? const BorderRadius.only(
+                        bottomRight: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      )
+                    : const BorderRadius.only(
+                        bottomLeft: Radius.circular(25),
+                        topLeft: Radius.circular(25),
+                      ),
               ),
-            );
-          }),
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.all(16),
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.13,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: languageProvider.appLocale == 'en'
-                      ? const BorderRadius.only(
-                      bottomRight: Radius.circular(25),
-                      topRight: Radius.circular(25))
-                      : const BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      topLeft: Radius.circular(25)),
-                ),
-                child: Column(
-                  children: const [
-                    Icon(
-                      Icons.delete,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    languageProvider.appLocale == 'en' ? 'Delete' : 'حذف',
+                    style: const TextStyle(
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'Delete',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, EditTask.routeName, arguments: todo);
+        },
         child: Container(
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.all(16),
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.13,
+          height: MediaQuery.of(context).size.height * 0.15,
           decoration: BoxDecoration(
             color: themingProvider.appTheme == MyTheme.lightMode
                 ? Colors.white
@@ -104,61 +93,58 @@ class UnDoneTodoItem extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(45)),
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.all(6),
                 margin: const EdgeInsets.all(6),
                 child: Column(
                   children: [
+                    const SizedBox(height: 8),
                     Text(
-                      todo!.title!,
+                      todo.title!,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: themingProvider.appTheme == MyTheme.lightMode
-                              ? const Color(0xff060E1E)
-                              : Colors.white),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        color: themingProvider.appTheme == MyTheme.lightMode
+                            ? const Color(0xff060E1E)
+                            : Colors.white,
+                      ),
                     ),
-                    const SizedBox(
-                      height: 9,
-                    ),
+                    const SizedBox(height: 12),
                     Text(
-                      todo!.description!,
+                      todo.description!,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: themingProvider.appTheme == MyTheme.lightMode
-                              ? const Color(0xff060E1E)
-                              : Colors.white),
+                        fontSize: 16,
+                        color: themingProvider.appTheme == MyTheme.lightMode
+                            ? const Color(0xff060E1E)
+                            : Colors.white,
+                      ),
                     )
                   ],
                 ),
               ),
               const Spacer(),
               InkWell(
-                onTap: (){
-                  markAsDone(todo!);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Marked As Done',
-                          textAlign: TextAlign.center),
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      behavior: SnackBarBehavior.floating,
-                      duration: const Duration(milliseconds: 500),
-                    ),
-                  );
+                onTap: () async {
+                  await listProvider.markAsDone(todo, context);
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(8),
-                  margin: const EdgeInsets.all(8),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.height * 0.12,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  margin: const EdgeInsets.all(0),
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  width: MediaQuery.of(context).size.width * 0.25,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     color: Colors.blueAccent,
                   ),
                   child: const Icon(
                     Icons.check_outlined,
-                    size: 35,
+                    size: 40,
                     color: Colors.white,
+                    opticalSize: 0.2,
                   ),
                 ),
               )
@@ -167,21 +153,5 @@ class UnDoneTodoItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void deleteTodo(Todo todo) {
-    FirebaseFirestore.instance
-        .collection(Todo.collectionNAME)
-        .doc(todo.id)
-        .delete();
-  }
-
-  void markAsDone(Todo todo){
-    FirebaseFirestore.instance
-        .collection(Todo.collectionNAME)
-        .doc(todo.id)
-        .update({
-      "isDone": true,
-    });
   }
 }
