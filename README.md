@@ -1,16 +1,24 @@
-# todo
+Todo
+=============================
+Todo is a simple todo app built with Flutter.
 
-A new Flutter project.
+## Screenshots
 
-## Getting Started
+|                                                                                                                             |                                                                                                                             |                                                                                                                           |
+|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------:|
+|        <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/splash.png" width="600"/>         |   <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/splash%20-%20dark.png" width="600"/>   | <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/light_english_home.png" width="600"/>  |
+|   <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dark_english_home.png" width="600"/>   |   <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/light_arabic_home.png" width="600"/>   |  <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dark_arabic_home.png" width="600"/>   |
+| <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/light_arabic_settings.png" width="600"/> | <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dark_english_settings.png" width="600"/> | <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dark_english_delete.png" width="600"/> |
+|   <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/light_arabic_edit.png" width="600"/>   |   <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dark_english_edit.png" width="600"/>   |       <img alt="Todo" src="https://github.com/moElsmokhraty/todo/blob/master/screenshots/dialog.png" width="600"/>        |
 
-This project is a starting point for a Flutter application.
+## Used Technologies
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter
+- Provider
+- Theming
+- Localization
+- Firestore Local Database
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Cloning the Repo
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`git clone git@github.com:moElsmokhraty/Todo.git`
