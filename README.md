@@ -17,6 +17,7 @@ Todo is a simple todo app built with Flutter.
 - Provider
 - Theming
 - Localization
+- Shared Preferences
 - Firestore Local Database
 
 ## Cloning the Repo
