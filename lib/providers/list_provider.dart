@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/Models/todo.dart';
-import 'package:todo/UI/Tabs/ListTab/list.dart';
+import 'package:todo/screens/tabs/list_tab/list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todo/UI/Tabs/SettingsTab/settings.dart';
+import 'package:todo/screens/tabs/settings_tab/settings.dart';
 import 'package:flutter_gen/gen_l10n/intl_localizations.dart';
+
+import 'language_provider.dart';
 
 class TodosProvider extends ChangeNotifier {
   DateTime calendarDate = DateTime.now();
@@ -45,6 +48,9 @@ class TodosProvider extends ChangeNotifier {
             content: Text(
               AppLocalizations.of(context)!.success_add,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.75,
             behavior: SnackBarBehavior.floating,
@@ -64,6 +70,9 @@ class TodosProvider extends ChangeNotifier {
             content: Text(
               AppLocalizations.of(context)!.success_delete,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.75,
             behavior: SnackBarBehavior.floating,
@@ -83,6 +92,9 @@ class TodosProvider extends ChangeNotifier {
             content: Text(
               AppLocalizations.of(context)!.success_done,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.75,
             behavior: SnackBarBehavior.floating,
@@ -102,6 +114,9 @@ class TodosProvider extends ChangeNotifier {
             content: Text(
               AppLocalizations.of(context)!.success_undone,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.75,
             behavior: SnackBarBehavior.floating,
@@ -129,6 +144,9 @@ class TodosProvider extends ChangeNotifier {
             content: Text(
               AppLocalizations.of(context)!.success_update,
               textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.75,
             behavior: SnackBarBehavior.floating,
@@ -140,9 +158,11 @@ class TodosProvider extends ChangeNotifier {
   }
 
   Future<void> changeDate(Todo todo, BuildContext context) async {
+    LanguageProvider languageProvider = Provider.of(context, listen: false);
     final taskDate = DateFormat('yyyy-MM-dd').parse(todo.date!);
     await showDatePicker(
       context: context,
+      locale: Locale(languageProvider.appLocale),
       initialDate: taskDate,
       firstDate: taskDate.subtract(const Duration(days: 365)),
       lastDate: taskDate.add(const Duration(days: 365)),

@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:todo/Providers/Theming/theming.dart';
 import 'package:todo/Providers/Theming/theming_provider.dart';
 import 'package:todo/Providers/list_provider.dart';
-import 'package:todo/UI/Home/edit_task_screen.dart';
-import 'package:todo/UI/Home/home_screen.dart';
+import 'package:todo/screens/Home/edit_task_screen.dart';
+import 'package:todo/screens/Home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

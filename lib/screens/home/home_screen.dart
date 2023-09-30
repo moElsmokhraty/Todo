@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo/Providers/Theming/theming.dart';
 import 'package:todo/Providers/Theming/theming_provider.dart';
 import 'package:todo/Providers/list_provider.dart';
-import 'package:todo/UI/Home/add_task_bottom_sheet.dart';
+import 'package:todo/screens/home/add_task_bottom_sheet.dart';
 import 'package:flutter_gen/gen_l10n/intl_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -86,6 +86,8 @@ class HomeScreen extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               notchMargin: 8,
               child: BottomNavigationBar(
+                selectedItemColor: Colors.blueAccent,
+                unselectedItemColor: Colors.grey,
                 backgroundColor: themingProvider.appTheme == MyTheme.lightMode
                     ? Colors.white
                     : const Color(0xff141922),
@@ -97,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                 showUnselectedLabels: false,
                 items: const [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.list), label: 'List'),
+                      icon: Icon(Icons.list), label: 'List',),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), label: 'Settings'),
                 ],

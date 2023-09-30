@@ -4,7 +4,7 @@ import 'package:todo/Models/todo.dart';
 import '../../../Providers/Theming/theming.dart';
 import '../../../Providers/language_provider.dart';
 import 'package:todo/Providers/list_provider.dart';
-import 'package:todo/UI/Home/edit_task_screen.dart';
+import 'package:todo/screens/Home/edit_task_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/Providers/Theming/theming_provider.dart';
 import 'package:flutter_gen/gen_l10n/intl_localizations.dart';

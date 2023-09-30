@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo/UI/Tabs/SettingsTab/language_bottom_sheet.dart';
 
 class LanguageProvider extends ChangeNotifier {
   String appLocale = "en";
@@ -79,14 +78,5 @@ class LanguageProvider extends ChangeNotifier {
         ),
       );
     }
-  }
-
-  showLanguageBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return const LanguageBottomSheet();
-      },
-    );
   }
 }

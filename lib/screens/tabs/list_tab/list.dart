@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/Models/todo.dart';
 import 'package:todo/Providers/list_provider.dart';
-import 'package:todo/UI/Tabs/ListTab/calendar.dart';
-import 'package:todo/UI/Tabs/ListTab/done_todo_item.dart';
-import 'package:todo/UI/Tabs/ListTab/undone_todo_item.dart';
+import 'package:todo/screens/Tabs/list_tab/calendar.dart';
+import 'package:todo/screens/Tabs/list_tab/done_todo_item.dart';
+import 'package:todo/screens/Tabs/list_tab/undone_todo_item.dart';
 
 class ListTab extends StatelessWidget {
   const ListTab({Key? key}) : super(key: key);

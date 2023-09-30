@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/Providers/Theming/theming.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/intl_localizations.dart';
-import 'package:todo/UI/Tabs/SettingsTab/theming_bottom_sheet.dart';
 
 class ThemingProvider extends ChangeNotifier {
   ThemeData appTheme = MyTheme.lightMode;
@@ -82,13 +81,5 @@ class ThemingProvider extends ChangeNotifier {
         ),
       );
     }
-  }
-
-  showThemingBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return const ThemingBottomSheet();
-        });
   }
 }
